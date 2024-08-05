@@ -1,0 +1,51 @@
+# @format hexformat
+---
+file:
+  - header:
+      - magic: 0x62617365626f617264 # "baseboard"
+      - friendly_version:
+          - len: 4
+          - type: ascii
+          - format:
+              - "v%02d"
+      - version:
+          - len: 4
+          - type: int
+          - cast: u32
+      - timestamp:
+          - len: 8
+          - type: int
+          - cast: u64
+      - reserved:
+          - len: 16
+          - type: x
+  - sheet_header:
+      - entry_count:
+          - len: 8
+          - type: int
+          - cast: u64
+      - entries:
+          - len: entry_count
+          - type sheet_entry:
+              - entry_length: # length of the sheet entry
+                  - len: 8
+                  - type: int
+                  - cast: u64
+              - sheet_id:
+                  - len: 8
+                  - type: int
+                  - cast: u64
+              - sheet_name:
+                  - length:
+                      - len: 4
+                      - type: int
+                      - cast: u32
+                  - value:
+                      - len: name_length
+                      - type: ascii
+                      - format:
+                          - "%s"
+              - meta_offset: # offset of the sheet meta data
+                  - len: 8
+                  - type: int
+                  - cast: u64
