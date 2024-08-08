@@ -1,60 +1,93 @@
-mod file_io;
-use file_io::{Endianness, FileIO, StringEncoding};
+mod byte_deserializer;
+mod cell;
+mod column;
+mod data_type;
+mod data_value;
+mod database;
+mod errors;
+mod id;
+mod length_table;
+mod sheet;
+mod traits;
+
+use cell::Cell;
+use column::Column;
+use data_type::Type;
+use data_value::Value;
+use database::Database;
+use sheet::Sheet;
+use traits::{PrettyPrintable, Serializable};
+
+use std::{fs::File, io::Write};
 
 fn main() {
-    let path = "example.bin";
-    let mut file_io = match FileIO::new(path) {
-        Ok(f) => f,
-        Err(e) => {
-            eprintln!("Failed to open file: {}", e);
-            return;
-        }
-    };
+    // Create a new database
+    let mut db = Database::new_empty();
 
-    // Write various types of data to the file
-    file_io.write_u32(0x12345678, Endianness::Big);
-    file_io.write_u64(0x123456789ABCDEF0, Endianness::Little);
-    file_io.write_u16(0xABCD, Endianness::Big);
-    if let Err(e) = file_io.write_string("Hello, World!", StringEncoding::Utf8) {
-        eprintln!("Failed to write string: {}", e);
-        return;
-    }
+    // Create a new sheet with columns:
+    // - Name: Str
+    // - Age: int
+    // - Salary: int
+    let mut employees = Sheet::new(
+        "Employees".to_string(),
+        vec![
+            Column::new("Name".to_string(), Type::Str, None),
+            Column::new("Age".to_string(), Type::Int, None),
+            Column::new("Salary".to_string(), Type::Int, None),
+        ],
+        None,
+    );
 
-    // Flush buffer to file
-    if let Err(e) = file_io.flush() {
-        eprintln!("Failed to flush data: {}", e);
-        return;
-    }
+    // - Name: "Alice"
+    // - Age: 25
+    // - Salary: 1000
+    employees
+        .insert_row(vec![
+            Value::Str("Alice".to_string()),
+            Value::Int(25),
+            Value::Int(1000),
+        ])
+        .unwrap();
 
-    // Reset file pointer to the start to read back data
-    if let Err(e) = file_io.seek(0) {
-        eprintln!("Failed to seek in file: {}", e);
-        return;
-    }
+    // - Name: "Bob"
+    // - Age: 30
+    // - Salary: 2000
+    employees
+        .insert_row(vec![
+            Value::Str("Bob".to_string()),
+            Value::Int(30),
+            Value::Int(2000),
+        ])
+        .unwrap();
 
-    // Read back the data
-    let value_u32 = file_io.read_u32(Endianness::Big).unwrap_or_else(|e| {
-        eprintln!("Failed to read u32: {}", e);
-        0
-    });
-    let value_u64 = file_io.read_u64(Endianness::Little).unwrap_or_else(|e| {
-        eprintln!("Failed to read u64: {}", e);
-        0
-    });
-    let value_u16 = file_io.read_u16(Endianness::Big).unwrap_or_else(|e| {
-        eprintln!("Failed to read u16: {}", e);
-        0
-    });
-    let value_string = file_io
-        .read_string(13, StringEncoding::Utf8)
-        .unwrap_or_else(|e| {
-            eprintln!("Failed to read string: {}", e);
-            String::from("Error")
-        });
+    // - Name: "Charlie"
+    // - Age: 35
+    // - Salary: 3000
+    employees
+        .insert_row(vec![
+            Value::Str("Charlie".to_string()),
+            Value::Int(35),
+            Value::Int(3000),
+        ])
+        .unwrap();
 
-    // Display the read values
-    println!("Read u32: 0x{:08X}", value_u32);
-    println!("Read u64: 0x{:016X}", value_u64);
-    println!("Read u16: 0x{:04X}", value_u16);
-    println!("Read string: {}", value_string);
+    // Add the sheet to the database
+    db.adopt_sheet(&mut employees);
+
+    // Print the database
+    println!("{}", db.pretty_print(0));
+
+    // Serialize the database to a file
+    let bytes: Vec<u8> = db.serialized_bytes();
+
+    // Write the bytes to a file
+    let mut file = File::create("database.bin").unwrap();
+    file.write_all(&bytes).unwrap();
+
+    // Deserialize the database from the file
+    let bytes = std::fs::read("database.bin").unwrap();
+    let db = Database::deserialize_bytes(&bytes).unwrap();
+
+    // Pretty print the database
+    println!("{}", db.pretty_print(0));
 }
