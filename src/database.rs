@@ -32,6 +32,10 @@ impl Database {
             self.adopt_sheet(&sheet);
         }
     }
+
+    pub fn get_sheet_mut(&mut self, name: &str) -> Option<&mut Sheet> {
+        self.columns.iter_mut().find(|sheet| sheet.name == name)
+    }
 }
 
 impl Serializable<Database> for Database {
@@ -40,13 +44,23 @@ impl Serializable<Database> for Database {
 
     fn serialized_bytes(&self) -> Vec<u8> {
         let mut bytes = Vec::new();
+        // ascii string magic bytes: "baseboredv1"
+        bytes.extend_from_slice(&[98, 97, 115, 101, 98, 111, 114, 101, 100, 118, 49]);
+
         let sheets_bytes = LengthTable::serialize(&self.columns);
         bytes.extend(sheets_bytes);
         bytes
     }
 
     fn deserialize_bytes(bytes: &[u8]) -> Result<Database, Error> {
-        let deserializer = ByteDeserializer::new(bytes);
+        let mut deserializer = ByteDeserializer::new(bytes);
+
+        // check magic bytes
+        let magic_bytes = deserializer.read_bytes(11)?;
+        if magic_bytes != [98, 97, 115, 101, 98, 111, 114, 101, 100, 118, 49] {
+            return Err(Error::DatabaseError(DatabaseError::InvalidMagicBytes));
+        }
+
         let sheets = LengthTable::deserialize(deserializer.remaining_bytes())?;
 
         let mut database = Database::new(Vec::new());
@@ -72,13 +86,13 @@ impl PrettyPrintable for Database {
 
 #[derive(Debug)]
 pub enum DatabaseError {
-    PLACEHOLDER,
+    InvalidMagicBytes,
 }
 
 impl std::fmt::Display for DatabaseError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            DatabaseError::PLACEHOLDER => write!(f, "Placeholder error"),
+            DatabaseError::InvalidMagicBytes => write!(f, "Invalid magic bytes"),
         }
     }
 }

@@ -38,10 +38,12 @@ fn main() {
         None,
     );
 
-    // - Name: "Alice"
-    // - Age: 25
-    // - Salary: 1000
-    employees
+    // Add the sheet to the database before adding rows
+    db.adopt_sheet(&mut employees);
+
+    // Insert rows dynamically after adoption
+    db.get_sheet_mut("Employees")
+        .unwrap()
         .insert_row(vec![
             Value::Str("Alice".to_string()),
             Value::Int(25),
@@ -49,10 +51,8 @@ fn main() {
         ])
         .unwrap();
 
-    // - Name: "Bob"
-    // - Age: 30
-    // - Salary: 2000
-    employees
+    db.get_sheet_mut("Employees")
+        .unwrap()
         .insert_row(vec![
             Value::Str("Bob".to_string()),
             Value::Int(30),
@@ -60,19 +60,14 @@ fn main() {
         ])
         .unwrap();
 
-    // - Name: "Charlie"
-    // - Age: 35
-    // - Salary: 3000
-    employees
+    db.get_sheet_mut("Employees")
+        .unwrap()
         .insert_row(vec![
             Value::Str("Charlie".to_string()),
             Value::Int(35),
             Value::Int(3000),
         ])
         .unwrap();
-
-    // Add the sheet to the database
-    db.adopt_sheet(&mut employees);
 
     // Print the database
     println!("{}", db.pretty_print(0));
