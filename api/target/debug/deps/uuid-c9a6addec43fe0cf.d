@@ -1,0 +1,14 @@
+/Users/hayes/Stores/repos/bluefalconhd/basebored/api/target/debug/deps/libuuid-c9a6addec43fe0cf.rmeta: /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/lib.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/builder.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/error.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/parser.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/fmt.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/timestamp.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/v4.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/rng.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/external.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/macros.rs
+
+/Users/hayes/Stores/repos/bluefalconhd/basebored/api/target/debug/deps/uuid-c9a6addec43fe0cf.d: /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/lib.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/builder.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/error.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/parser.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/fmt.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/timestamp.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/v4.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/rng.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/external.rs /Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/macros.rs
+
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/lib.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/builder.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/error.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/parser.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/fmt.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/timestamp.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/v4.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/rng.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/external.rs:
+/Users/hayes/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uuid-1.10.0/src/macros.rs:
